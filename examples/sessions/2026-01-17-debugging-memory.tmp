@@ -7,7 +7,7 @@
 
 ## Current State
 
-Investigating memory leak in production. Heap growing unbounded over 24h period.
+调查生产环境的内存泄漏。Heap 在 24 小时内无限增长。
 
 ### Completed
 - [x] Set up heap snapshots in staging
@@ -16,37 +16,37 @@ Investigating memory leak in production. Heap growing unbounded over 24h period.
 - [x] Verified fix with 4h soak test
 
 ### Root Cause
-WebSocket `onMessage` handlers were being added on reconnect but not removed on disconnect. After ~1000 reconnects, memory grew from 200MB to 2GB.
+WebSocket `onMessage` 处理器在重连时被添加但在断开时未被移除。约 1000 次重连后，内存从 200MB 增长到 2GB。
 
 ### The Fix
 ```javascript
-// Before (leaking)
+// 之前 (泄漏)
 socket.on('connect', () => {
   socket.on('message', handleMessage)
 })
 
-// After (fixed)
+// 之后 (已修复)
 socket.on('connect', () => {
-  socket.off('message', handleMessage) // Remove old listener first
+  socket.off('message', handleMessage) // 先移除旧监听器
   socket.on('message', handleMessage)
 })
 
-// Even better - use once or cleanup on disconnect
+// 更好的方式 - 使用 once 或在断开时清理
 socket.on('disconnect', () => {
   socket.removeAllListeners('message')
 })
 ```
 
-### Debugging Technique Worth Saving
-1. Take heap snapshot at T=0
-2. Force garbage collection: `global.gc()`
-3. Run suspected operation N times
-4. Take heap snapshot at T=1
-5. Compare snapshots - look for objects with count = N
+### 值得保存的调试技巧
+1. 在 T=0 时获取 heap snapshot
+2. 强制垃圾回收: `global.gc()`
+3. 运行可疑操作 N 次
+4. 在 T=1 时获取 heap snapshot
+5. 比较 snapshots - 查找 count = N 的对象
 
-### Notes for Next Session
-- Add memory monitoring alert at 1GB threshold
-- Document this debugging pattern for team
+### 下次会话备注
+- 在 1GB 阈值添加内存监控告警
+- 为团队记录此调试模式
 
 ### Context to Load
 ```

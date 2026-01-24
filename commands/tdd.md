@@ -1,39 +1,39 @@
 ---
-description: Enforce test-driven development workflow. Scaffold interfaces, generate tests FIRST, then implement minimal code to pass. Ensure 80%+ coverage.
+description: 执行测试驱动开发工作流。先搭建接口，先生成测试，然后实现最小代码以通过测试。确保 80%+ 覆盖率。
 ---
 
 # TDD Command
 
-This command invokes the **tdd-guide** agent to enforce test-driven development methodology.
+此命令调用 **tdd-guide** agent 来执行测试驱动开发方法论。
 
 ## What This Command Does
 
-1. **Scaffold Interfaces** - Define types/interfaces first
-2. **Generate Tests First** - Write failing tests (RED)
-3. **Implement Minimal Code** - Write just enough to pass (GREEN)
-4. **Refactor** - Improve code while keeping tests green (REFACTOR)
-5. **Verify Coverage** - Ensure 80%+ test coverage
+1. **Scaffold Interfaces** - 先定义 types/interfaces
+2. **Generate Tests First** - 编写失败的测试 (RED)
+3. **Implement Minimal Code** - 只写刚好能通过的代码 (GREEN)
+4. **Refactor** - 在保持测试通过的同时改进代码 (REFACTOR)
+5. **Verify Coverage** - 确保 80%+ 测试覆盖率
 
 ## When to Use
 
-Use `/tdd` when:
-- Implementing new features
-- Adding new functions/components
-- Fixing bugs (write test that reproduces bug first)
-- Refactoring existing code
-- Building critical business logic
+使用 `/tdd` 当：
+- 实现新功能
+- 添加新函数/组件
+- 修复 bugs（先写重现 bug 的测试）
+- 重构现有代码
+- 构建关键业务逻辑
 
 ## How It Works
 
-The tdd-guide agent will:
+tdd-guide agent 将：
 
-1. **Define interfaces** for inputs/outputs
-2. **Write tests that will FAIL** (because code doesn't exist yet)
-3. **Run tests** and verify they fail for the right reason
-4. **Write minimal implementation** to make tests pass
-5. **Run tests** and verify they pass
-6. **Refactor** code while keeping tests green
-7. **Check coverage** and add more tests if below 80%
+1. **Define interfaces** 定义输入/输出接口
+2. **Write tests that will FAIL**（因为代码还不存在）
+3. **Run tests** 验证它们以正确的原因失败
+4. **Write minimal implementation** 使测试通过
+5. **Run tests** 验证它们通过
+6. **Refactor** 在保持测试通过的同时重构代码
+7. **Check coverage** 如低于 80% 则添加更多测试
 
 ## TDD Cycle
 
@@ -140,21 +140,21 @@ FAIL lib/liquidity.test.ts
 ```typescript
 // lib/liquidity.ts
 export function calculateLiquidityScore(market: MarketData): number {
-  // Handle zero volume edge case
+  // 处理零交易量边缘情况
   if (market.totalVolume === 0) {
     return 0
   }
 
-  // Calculate component scores (0-100 scale)
+  // 计算各组件分数（0-100 范围）
   const volumeScore = Math.min(market.totalVolume / 1000, 100)
   const spreadScore = Math.max(100 - (market.bidAskSpread * 1000), 0)
   const traderScore = Math.min(market.activeTraders / 10, 100)
 
-  // Recent activity bonus
+  // 近期活动加成
   const hoursSinceLastTrade = (Date.now() - market.lastTradeTime.getTime()) / (1000 * 60 * 60)
   const recencyScore = Math.max(100 - (hoursSinceLastTrade * 10), 0)
 
-  // Weighted average
+  // 加权平均
   const score = (
     volumeScore * 0.4 +
     spreadScore * 0.3 +
@@ -162,7 +162,7 @@ export function calculateLiquidityScore(market: MarketData): number {
     recencyScore * 0.1
   )
 
-  return Math.min(Math.max(score, 0), 100) // Clamp to 0-100
+  return Math.min(Math.max(score, 0), 100) // 限制在 0-100 范围
 }
 ```
 
@@ -184,7 +184,7 @@ PASS lib/liquidity.test.ts
 ## Step 6: Refactor (IMPROVE)
 
 ```typescript
-// lib/liquidity.ts - Refactored with constants and better readability
+// lib/liquidity.ts - 使用常量重构，提高可读性
 const WEIGHTS = {
   VOLUME: 0.4,
   SPREAD: 0.3,
@@ -256,71 +256,71 @@ Coverage: 100% ✅ (Target: 80%)
 ## TDD Best Practices
 
 **DO:**
-- ✅ Write the test FIRST, before any implementation
-- ✅ Run tests and verify they FAIL before implementing
-- ✅ Write minimal code to make tests pass
-- ✅ Refactor only after tests are green
-- ✅ Add edge cases and error scenarios
-- ✅ Aim for 80%+ coverage (100% for critical code)
+- ✅ 在任何实现之前先写测试
+- ✅ 运行测试并验证它们在实现前失败
+- ✅ 写最小代码使测试通过
+- ✅ 只在测试通过后才重构
+- ✅ 添加边缘情况和错误场景
+- ✅ 目标 80%+ 覆盖率（关键代码 100%）
 
 **DON'T:**
-- ❌ Write implementation before tests
-- ❌ Skip running tests after each change
-- ❌ Write too much code at once
-- ❌ Ignore failing tests
-- ❌ Test implementation details (test behavior)
-- ❌ Mock everything (prefer integration tests)
+- ❌ 在测试之前写实现
+- ❌ 每次修改后跳过运行测试
+- ❌ 一次写太多代码
+- ❌ 忽略失败的测试
+- ❌ 测试实现细节（要测试行为）
+- ❌ mock 一切（优先集成测试）
 
 ## Test Types to Include
 
-**Unit Tests** (Function-level):
-- Happy path scenarios
-- Edge cases (empty, null, max values)
-- Error conditions
-- Boundary values
+**Unit Tests**（函数级）：
+- 正常路径场景
+- 边缘情况（空、null、最大值）
+- 错误条件
+- 边界值
 
-**Integration Tests** (Component-level):
+**Integration Tests**（组件级）：
 - API endpoints
-- Database operations
-- External service calls
-- React components with hooks
+- 数据库操作
+- 外部服务调用
+- 带 hooks 的 React 组件
 
-**E2E Tests** (use `/e2e` command):
-- Critical user flows
-- Multi-step processes
-- Full stack integration
+**E2E Tests**（使用 `/e2e` 命令）：
+- 关键用户流程
+- 多步骤流程
+- 全栈集成
 
 ## Coverage Requirements
 
-- **80% minimum** for all code
-- **100% required** for:
-  - Financial calculations
-  - Authentication logic
-  - Security-critical code
-  - Core business logic
+- **80% minimum** 对于所有代码
+- **100% required** 对于：
+  - 金融计算
+  - 认证逻辑
+  - 安全关键代码
+  - 核心业务逻辑
 
 ## Important Notes
 
-**MANDATORY**: Tests must be written BEFORE implementation. The TDD cycle is:
+**MANDATORY**: 测试必须在实现之前编写。TDD 循环是：
 
-1. **RED** - Write failing test
-2. **GREEN** - Implement to pass
-3. **REFACTOR** - Improve code
+1. **RED** - 写失败的测试
+2. **GREEN** - 实现以通过
+3. **REFACTOR** - 改进代码
 
-Never skip the RED phase. Never write code before tests.
+永远不要跳过 RED 阶段。永远不要在测试之前写代码。
 
 ## Integration with Other Commands
 
-- Use `/plan` first to understand what to build
-- Use `/tdd` to implement with tests
-- Use `/build-and-fix` if build errors occur
-- Use `/code-review` to review implementation
-- Use `/test-coverage` to verify coverage
+- 先使用 `/plan` 理解要构建什么
+- 使用 `/tdd` 带测试实现
+- 如果发生构建错误使用 `/build-and-fix`
+- 使用 `/code-review` 审查实现
+- 使用 `/test-coverage` 验证覆盖率
 
 ## Related Agents
 
-This command invokes the `tdd-guide` agent located at:
+此命令调用位于以下位置的 `tdd-guide` agent：
 `~/.claude/agents/tdd-guide.md`
 
-And can reference the `tdd-workflow` skill at:
+并可引用以下位置的 `tdd-workflow` skill：
 `~/.claude/skills/tdd-workflow/`

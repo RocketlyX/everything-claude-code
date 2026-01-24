@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * Stop Hook (Session End) - Persist learnings when session ends
+ * Stop Hook (Session End) - 会话结束时持久化学习内容
  *
- * Cross-platform (Windows, macOS, Linux)
+ * 跨平台 (Windows, macOS, Linux)
  *
- * Runs when Claude session ends. Creates/updates session log file
- * with timestamp for continuity tracking.
+ * 在 Claude 会话结束时运行。创建/更新带时间戳的会话日志文件
+ * 以进行连续性跟踪。
  */
 
 const path = require('path');
@@ -30,7 +30,7 @@ async function main() {
 
   const currentTime = getTimeString();
 
-  // If session file exists for today, update the end time
+  // 如果今天的会话文件存在，更新结束时间
   if (fs.existsSync(sessionFile)) {
     const success = replaceInFile(
       sessionFile,
@@ -42,7 +42,7 @@ async function main() {
       log(`[SessionEnd] Updated session file: ${sessionFile}`);
     }
   } else {
-    // Create new session file with template
+    // 使用模板创建新的会话文件
     const template = `# Session: ${today}
 **Date:** ${today}
 **Started:** ${currentTime}
@@ -52,7 +52,7 @@ async function main() {
 
 ## Current State
 
-[Session context goes here]
+[会话上下文放在这里]
 
 ### Completed
 - [ ]
@@ -65,7 +65,7 @@ async function main() {
 
 ### Context to Load
 \`\`\`
-[relevant files]
+[相关文件]
 \`\`\`
 `;
 

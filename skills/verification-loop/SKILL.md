@@ -1,37 +1,37 @@
 # Verification Loop Skill
 
-A comprehensive verification system for Claude Code sessions.
+Claude Code 会话的全面验证系统。
 
 ## When to Use
 
-Invoke this skill:
-- After completing a feature or significant code change
-- Before creating a PR
-- When you want to ensure quality gates pass
-- After refactoring
+调用此 skill：
+- 完成功能或重要代码更改后
+- 创建 PR 之前
+- 当你想确保质量门禁通过时
+- 重构之后
 
 ## Verification Phases
 
 ### Phase 1: Build Verification
 ```bash
-# Check if project builds
+# 检查项目是否构建成功
 npm run build 2>&1 | tail -20
-# OR
+# 或
 pnpm build 2>&1 | tail -20
 ```
 
-If build fails, STOP and fix before continuing.
+如果构建失败，停止并在继续之前修复。
 
 ### Phase 2: Type Check
 ```bash
-# TypeScript projects
+# TypeScript 项目
 npx tsc --noEmit 2>&1 | head -30
 
-# Python projects
+# Python 项目
 pyright . 2>&1 | head -30
 ```
 
-Report all type errors. Fix critical ones before continuing.
+报告所有类型错误。在继续之前修复关键错误。
 
 ### Phase 3: Lint Check
 ```bash
@@ -44,14 +44,14 @@ ruff check . 2>&1 | head -30
 
 ### Phase 4: Test Suite
 ```bash
-# Run tests with coverage
+# 运行带覆盖率的测试
 npm run test -- --coverage 2>&1 | tail -50
 
-# Check coverage threshold
-# Target: 80% minimum
+# 检查覆盖率阈值
+# 目标: 80% minimum
 ```
 
-Report:
+报告：
 - Total tests: X
 - Passed: X
 - Failed: X
@@ -59,29 +59,29 @@ Report:
 
 ### Phase 5: Security Scan
 ```bash
-# Check for secrets
+# 检查 secrets
 grep -rn "sk-" --include="*.ts" --include="*.js" . 2>/dev/null | head -10
 grep -rn "api_key" --include="*.ts" --include="*.js" . 2>/dev/null | head -10
 
-# Check for console.log
+# 检查 console.log
 grep -rn "console.log" --include="*.ts" --include="*.tsx" src/ 2>/dev/null | head -10
 ```
 
 ### Phase 6: Diff Review
 ```bash
-# Show what changed
+# 显示变更内容
 git diff --stat
 git diff HEAD~1 --name-only
 ```
 
-Review each changed file for:
-- Unintended changes
-- Missing error handling
-- Potential edge cases
+审查每个更改的文件：
+- 意外的更改
+- 缺失的错误处理
+- 潜在的边缘情况
 
 ## Output Format
 
-After running all phases, produce a verification report:
+运行所有阶段后，生成验证报告：
 
 ```
 VERIFICATION REPORT
@@ -103,18 +103,18 @@ Issues to Fix:
 
 ## Continuous Mode
 
-For long sessions, run verification every 15 minutes or after major changes:
+对于长会话，每 15 分钟或重大更改后运行验证：
 
 ```markdown
-Set a mental checkpoint:
-- After completing each function
-- After finishing a component
-- Before moving to next task
+设置心理检查点：
+- 完成每个函数后
+- 完成组件后
+- 进入下一个任务之前
 
-Run: /verify
+运行: /verify
 ```
 
 ## Integration with Hooks
 
-This skill complements PostToolUse hooks but provides deeper verification.
-Hooks catch issues immediately; this skill provides comprehensive review.
+此 skill 补充 PostToolUse hooks 但提供更深入的验证。
+Hooks 立即捕获问题；此 skill 提供全面审查。

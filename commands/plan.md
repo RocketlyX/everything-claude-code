@@ -1,37 +1,37 @@
 ---
-description: Restate requirements, assess risks, and create step-by-step implementation plan. WAIT for user CONFIRM before touching any code.
+description: 重述需求，评估风险，创建分步实现计划。在接触任何代码之前等待用户确认。
 ---
 
 # Plan Command
 
-This command invokes the **planner** agent to create a comprehensive implementation plan before writing any code.
+此命令调用 **planner** agent 在编写任何代码之前创建全面的实现计划。
 
 ## What This Command Does
 
-1. **Restate Requirements** - Clarify what needs to be built
-2. **Identify Risks** - Surface potential issues and blockers
-3. **Create Step Plan** - Break down implementation into phases
-4. **Wait for Confirmation** - MUST receive user approval before proceeding
+1. **Restate Requirements** - 澄清需要构建什么
+2. **Identify Risks** - 揭示潜在问题和阻碍
+3. **Create Step Plan** - 将实现分解为阶段
+4. **Wait for Confirmation** - 必须在继续之前获得用户批准
 
 ## When to Use
 
-Use `/plan` when:
-- Starting a new feature
-- Making significant architectural changes
-- Working on complex refactoring
-- Multiple files/components will be affected
-- Requirements are unclear or ambiguous
+使用 `/plan` 当：
+- 开始新功能
+- 进行重大架构变更
+- 处理复杂重构
+- 多个文件/组件将受影响
+- 需求不清晰或模糊
 
 ## How It Works
 
-The planner agent will:
+planner agent 将：
 
-1. **Analyze the request** and restate requirements in clear terms
-2. **Break down into phases** with specific, actionable steps
-3. **Identify dependencies** between components
-4. **Assess risks** and potential blockers
+1. **Analyze the request** 用清晰的术语重述需求
+2. **Break down into phases** 包含具体、可执行的步骤
+3. **Identify dependencies** 组件之间的依赖关系
+4. **Assess risks** 和潜在阻碍
 5. **Estimate complexity** (High/Medium/Low)
-6. **Present the plan** and WAIT for your explicit confirmation
+6. **Present the plan** 并等待你的明确确认
 
 ## Example Usage
 
@@ -93,21 +93,21 @@ Agent (planner):
 
 ## Important Notes
 
-**CRITICAL**: The planner agent will **NOT** write any code until you explicitly confirm the plan with "yes" or "proceed" or similar affirmative response.
+**CRITICAL**: planner agent 在你明确用 "yes" 或 "proceed" 或类似肯定回复确认计划之前**不会**编写任何代码。
 
-If you want changes, respond with:
+如果你想要修改，回复：
 - "modify: [your changes]"
 - "different approach: [alternative]"
 - "skip phase 2 and do phase 3 first"
 
 ## Integration with Other Commands
 
-After planning:
-- Use `/tdd` to implement with test-driven development
-- Use `/build-and-fix` if build errors occur
-- Use `/code-review` to review completed implementation
+计划完成后：
+- 使用 `/tdd` 进行测试驱动开发实现
+- 如果发生构建错误使用 `/build-and-fix`
+- 使用 `/code-review` 审查完成的实现
 
 ## Related Agents
 
-This command invokes the `planner` agent located at:
+此命令调用位于以下位置的 `planner` agent：
 `~/.claude/agents/planner.md`

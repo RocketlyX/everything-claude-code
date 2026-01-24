@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * SessionStart Hook - Load previous context on new session
+ * SessionStart Hook - 新会话时加载之前的上下文
  *
- * Cross-platform (Windows, macOS, Linux)
+ * 跨平台 (Windows, macOS, Linux)
  *
- * Runs when a new Claude session starts. Checks for recent session
- * files and notifies Claude of available context to load.
+ * 在新的 Claude 会话开始时运行。检查最近的会话文件
+ * 并通知 Claude 可加载的上下文。
  */
 
 const path = require('path');
@@ -22,11 +22,11 @@ async function main() {
   const sessionsDir = getSessionsDir();
   const learnedDir = getLearnedSkillsDir();
 
-  // Ensure directories exist
+  // 确保目录存在
   ensureDir(sessionsDir);
   ensureDir(learnedDir);
 
-  // Check for recent session files (last 7 days)
+  // 检查最近的会话文件（最近 7 天）
   const recentSessions = findFiles(sessionsDir, '*.tmp', { maxAge: 7 });
 
   if (recentSessions.length > 0) {
@@ -35,18 +35,18 @@ async function main() {
     log(`[SessionStart] Latest: ${latest.path}`);
   }
 
-  // Check for learned skills
+  // 检查已学习的 skills
   const learnedSkills = findFiles(learnedDir, '*.md');
 
   if (learnedSkills.length > 0) {
     log(`[SessionStart] ${learnedSkills.length} learned skill(s) available in ${learnedDir}`);
   }
 
-  // Detect and report package manager
+  // 检测并报告包管理器
   const pm = getPackageManager();
   log(`[SessionStart] Package manager: ${pm.name} (${pm.source})`);
 
-  // If package manager was detected via fallback, show selection prompt
+  // 如果包管理器是通过 fallback 检测的，显示选择提示
   if (pm.source === 'fallback' || pm.source === 'default') {
     log('[SessionStart] No package manager preference found.');
     log(getSelectionPrompt());
@@ -57,5 +57,5 @@ async function main() {
 
 main().catch(err => {
   console.error('[SessionStart] Error:', err.message);
-  process.exit(0); // Don't block on errors
+  process.exit(0); // 出错时不阻塞
 });

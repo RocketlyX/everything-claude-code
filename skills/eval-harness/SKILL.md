@@ -1,19 +1,19 @@
 # Eval Harness Skill
 
-A formal evaluation framework for Claude Code sessions, implementing eval-driven development (EDD) principles.
+Claude Code 会话的正式评估框架，实现 eval 驱动开发 (EDD) 原则。
 
 ## Philosophy
 
-Eval-Driven Development treats evals as the "unit tests of AI development":
-- Define expected behavior BEFORE implementation
-- Run evals continuously during development
-- Track regressions with each change
-- Use pass@k metrics for reliability measurement
+Eval 驱动开发将 evals 视为"AI 开发的单元测试"：
+- 在实现之前定义预期行为
+- 开发过程中持续运行 evals
+- 跟踪每次更改的回归
+- 使用 pass@k 指标衡量可靠性
 
 ## Eval Types
 
 ### Capability Evals
-Test if Claude can do something it couldn't before:
+测试 Claude 是否能做之前不能做的事情：
 ```markdown
 [CAPABILITY EVAL: feature-name]
 Task: Description of what Claude should accomplish
@@ -25,7 +25,7 @@ Expected Output: Description of expected result
 ```
 
 ### Regression Evals
-Ensure changes don't break existing functionality:
+确保更改不会破坏现有功能：
 ```markdown
 [REGRESSION EVAL: feature-name]
 Baseline: SHA or checkpoint name
@@ -39,20 +39,20 @@ Result: X/Y passed (previously Y/Y)
 ## Grader Types
 
 ### 1. Code-Based Grader
-Deterministic checks using code:
+使用代码进行确定性检查：
 ```bash
-# Check if file contains expected pattern
+# 检查文件是否包含预期模式
 grep -q "export function handleAuth" src/auth.ts && echo "PASS" || echo "FAIL"
 
-# Check if tests pass
+# 检查测试是否通过
 npm test -- --testPathPattern="auth" && echo "PASS" || echo "FAIL"
 
-# Check if build succeeds
+# 检查构建是否成功
 npm run build && echo "PASS" || echo "FAIL"
 ```
 
 ### 2. Model-Based Grader
-Use Claude to evaluate open-ended outputs:
+使用 Claude 评估开放式输出：
 ```markdown
 [MODEL GRADER PROMPT]
 Evaluate the following code change:
@@ -66,7 +66,7 @@ Reasoning: [explanation]
 ```
 
 ### 3. Human Grader
-Flag for manual review:
+标记需要人工审查：
 ```markdown
 [HUMAN REVIEW REQUIRED]
 Change: Description of what changed
@@ -77,16 +77,16 @@ Risk Level: LOW/MEDIUM/HIGH
 ## Metrics
 
 ### pass@k
-"At least one success in k attempts"
-- pass@1: First attempt success rate
-- pass@3: Success within 3 attempts
-- Typical target: pass@3 > 90%
+"k 次尝试中至少成功一次"
+- pass@1: 首次尝试成功率
+- pass@3: 3 次尝试内成功
+- 典型目标: pass@3 > 90%
 
 ### pass^k
-"All k trials succeed"
-- Higher bar for reliability
-- pass^3: 3 consecutive successes
-- Use for critical paths
+"k 次试验全部成功"
+- 可靠性的更高标准
+- pass^3: 连续 3 次成功
+- 用于关键路径
 
 ## Eval Workflow
 
@@ -110,17 +110,17 @@ Risk Level: LOW/MEDIUM/HIGH
 ```
 
 ### 2. Implement
-Write code to pass the defined evals.
+编写代码以通过定义的 evals。
 
 ### 3. Evaluate
 ```bash
-# Run capability evals
+# 运行 capability evals
 [Run each capability eval, record PASS/FAIL]
 
-# Run regression evals
+# 运行 regression evals
 npm test -- --testPathPattern="existing"
 
-# Generate report
+# 生成报告
 ```
 
 ### 4. Report
@@ -153,40 +153,40 @@ Status: READY FOR REVIEW
 ```
 /eval define feature-name
 ```
-Creates eval definition file at `.claude/evals/feature-name.md`
+在 `.claude/evals/feature-name.md` 创建 eval 定义文件
 
 ### During Implementation
 ```
 /eval check feature-name
 ```
-Runs current evals and reports status
+运行当前 evals 并报告状态
 
 ### Post-Implementation
 ```
 /eval report feature-name
 ```
-Generates full eval report
+生成完整 eval 报告
 
 ## Eval Storage
 
-Store evals in project:
+在项目中存储 evals：
 ```
 .claude/
   evals/
-    feature-xyz.md      # Eval definition
-    feature-xyz.log     # Eval run history
-    baseline.json       # Regression baselines
+    feature-xyz.md      # Eval 定义
+    feature-xyz.log     # Eval 运行历史
+    baseline.json       # Regression 基线
 ```
 
 ## Best Practices
 
-1. **Define evals BEFORE coding** - Forces clear thinking about success criteria
-2. **Run evals frequently** - Catch regressions early
-3. **Track pass@k over time** - Monitor reliability trends
-4. **Use code graders when possible** - Deterministic > probabilistic
-5. **Human review for security** - Never fully automate security checks
-6. **Keep evals fast** - Slow evals don't get run
-7. **Version evals with code** - Evals are first-class artifacts
+1. **Define evals BEFORE coding** - 强制清晰思考成功标准
+2. **Run evals frequently** - 尽早发现回归
+3. **Track pass@k over time** - 监控可靠性趋势
+4. **Use code graders when possible** - 确定性 > 概率性
+5. **Human review for security** - 永远不要完全自动化安全检查
+6. **Keep evals fast** - 慢的 evals 不会被运行
+7. **Version evals with code** - Evals 是一等公民工件
 
 ## Example: Adding Authentication
 

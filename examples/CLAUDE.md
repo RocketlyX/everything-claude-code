@@ -1,53 +1,53 @@
-# Example Project CLAUDE.md
+# 项目级 CLAUDE.md 示例
 
-This is an example project-level CLAUDE.md file. Place this in your project root.
+这是一个项目级 CLAUDE.md 文件示例。将此文件放在项目根目录。
 
 ## Project Overview
 
-[Brief description of your project - what it does, tech stack]
+[项目简介 - 功能描述、技术栈]
 
 ## Critical Rules
 
 ### 1. Code Organization
 
-- Many small files over few large files
-- High cohesion, low coupling
-- 200-400 lines typical, 800 max per file
-- Organize by feature/domain, not by type
+- 多个小文件优于少数大文件
+- 高内聚，低耦合
+- 典型 200-400 行，每文件最多 800 行
+- 按功能/领域组织，而非按类型
 
 ### 2. Code Style
 
-- No emojis in code, comments, or documentation
-- Immutability always - never mutate objects or arrays
-- No console.log in production code
-- Proper error handling with try/catch
-- Input validation with Zod or similar
+- 代码、注释或文档中不使用 emojis
+- 始终保持 Immutability - 永不修改对象或数组
+- 生产代码中不使用 console.log
+- 使用 try/catch 进行正确的错误处理
+- 使用 Zod 或类似工具进行输入验证
 
 ### 3. Testing
 
-- TDD: Write tests first
-- 80% minimum coverage
-- Unit tests for utilities
-- Integration tests for APIs
-- E2E tests for critical flows
+- TDD: 先写测试
+- 最低 80% 覆盖率
+- 工具函数使用单元测试
+- APIs 使用集成测试
+- 关键流程使用 E2E 测试
 
 ### 4. Security
 
-- No hardcoded secrets
-- Environment variables for sensitive data
-- Validate all user inputs
-- Parameterized queries only
-- CSRF protection enabled
+- 不硬编码 secrets
+- 敏感数据使用环境变量
+- 验证所有用户输入
+- 仅使用参数化查询
+- 启用 CSRF 保护
 
 ## File Structure
 
 ```
 src/
 |-- app/              # Next.js app router
-|-- components/       # Reusable UI components
-|-- hooks/            # Custom React hooks
-|-- lib/              # Utility libraries
-|-- types/            # TypeScript definitions
+|-- components/       # 可复用 UI 组件
+|-- hooks/            # 自定义 React hooks
+|-- lib/              # 工具库
+|-- types/            # TypeScript 定义
 ```
 
 ## Key Patterns
@@ -77,24 +77,24 @@ try {
 ## Environment Variables
 
 ```bash
-# Required
+# 必需
 DATABASE_URL=
 API_KEY=
 
-# Optional
+# 可选
 DEBUG=false
 ```
 
 ## Available Commands
 
-- `/tdd` - Test-driven development workflow
-- `/plan` - Create implementation plan
-- `/code-review` - Review code quality
-- `/build-fix` - Fix build errors
+- `/tdd` - 测试驱动开发工作流
+- `/plan` - 创建实现计划
+- `/code-review` - 审查代码质量
+- `/build-fix` - 修复构建错误
 
 ## Git Workflow
 
 - Conventional commits: `feat:`, `fix:`, `refactor:`, `docs:`, `test:`
-- Never commit to main directly
-- PRs require review
-- All tests must pass before merge
+- 永不直接提交到 main 分支
+- PRs 需要审查
+- 合并前所有测试必须通过

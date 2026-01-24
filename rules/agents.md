@@ -2,31 +2,31 @@
 
 ## Available Agents
 
-Located in `~/.claude/agents/`:
+位于 `~/.claude/agents/`：
 
 | Agent | Purpose | When to Use |
 |-------|---------|-------------|
-| planner | Implementation planning | Complex features, refactoring |
-| architect | System design | Architectural decisions |
-| tdd-guide | Test-driven development | New features, bug fixes |
-| code-reviewer | Code review | After writing code |
-| security-reviewer | Security analysis | Before commits |
-| build-error-resolver | Fix build errors | When build fails |
-| e2e-runner | E2E testing | Critical user flows |
-| refactor-cleaner | Dead code cleanup | Code maintenance |
-| doc-updater | Documentation | Updating docs |
+| planner | 实现规划 | 复杂功能、重构 |
+| architect | 系统设计 | 架构决策 |
+| tdd-guide | 测试驱动开发 | 新功能、bug 修复 |
+| code-reviewer | 代码审查 | 写完代码后 |
+| security-reviewer | 安全分析 | 提交前 |
+| build-error-resolver | 修复构建错误 | 构建失败时 |
+| e2e-runner | E2E 测试 | 关键用户流程 |
+| refactor-cleaner | 死代码清理 | 代码维护 |
+| doc-updater | 文档更新 | 更新文档时 |
 
 ## Immediate Agent Usage
 
-No user prompt needed:
-1. Complex feature requests - Use **planner** agent
-2. Code just written/modified - Use **code-reviewer** agent
-3. Bug fix or new feature - Use **tdd-guide** agent
-4. Architectural decision - Use **architect** agent
+无需用户提示即可使用：
+1. 复杂功能请求 - 使用 **planner** agent
+2. 刚写完/修改的代码 - 使用 **code-reviewer** agent
+3. Bug 修复或新功能 - 使用 **tdd-guide** agent
+4. 架构决策 - 使用 **architect** agent
 
 ## Parallel Task Execution
 
-ALWAYS use parallel Task execution for independent operations:
+对于独立操作始终使用并行 Task 执行：
 
 ```markdown
 # GOOD: Parallel execution
@@ -41,7 +41,7 @@ First agent 1, then agent 2, then agent 3
 
 ## Multi-Perspective Analysis
 
-For complex problems, use split role sub-agents:
+对于复杂问题，使用分角色 sub-agents：
 - Factual reviewer
 - Senior engineer
 - Security expert

@@ -1,35 +1,35 @@
 ---
 name: strategic-compact
-description: Suggests manual context compaction at logical intervals to preserve context through task phases rather than arbitrary auto-compaction.
+description: 在逻辑间隔点建议手动上下文压缩，以便在任务阶段之间保留上下文，而非任意自动压缩。
 ---
 
 # Strategic Compact Skill
 
-Suggests manual `/compact` at strategic points in your workflow rather than relying on arbitrary auto-compaction.
+在工作流的策略性节点建议手动 `/compact`，而非依赖任意的自动压缩。
 
 ## Why Strategic Compaction?
 
-Auto-compaction triggers at arbitrary points:
-- Often mid-task, losing important context
-- No awareness of logical task boundaries
-- Can interrupt complex multi-step operations
+自动压缩在任意时刻触发：
+- 经常在任务中途，丢失重要上下文
+- 不了解逻辑任务边界
+- 可能中断复杂的多步骤操作
 
-Strategic compaction at logical boundaries:
-- **After exploration, before execution** - Compact research context, keep implementation plan
-- **After completing a milestone** - Fresh start for next phase
-- **Before major context shifts** - Clear exploration context before different task
+在逻辑边界进行策略性压缩：
+- **After exploration, before execution** - 压缩研究上下文，保留实现计划
+- **After completing a milestone** - 为下一阶段全新开始
+- **Before major context shifts** - 在不同任务之前清除探索上下文
 
 ## How It Works
 
-The `suggest-compact.sh` script runs on PreToolUse (Edit/Write) and:
+`suggest-compact.sh` 脚本在 PreToolUse (Edit/Write) 时运行：
 
-1. **Tracks tool calls** - Counts tool invocations in session
-2. **Threshold detection** - Suggests at configurable threshold (default: 50 calls)
-3. **Periodic reminders** - Reminds every 25 calls after threshold
+1. **Tracks tool calls** - 计算会话中的工具调用次数
+2. **Threshold detection** - 在可配置阈值处建议（默认：50 次调用）
+3. **Periodic reminders** - 阈值后每 25 次调用提醒
 
 ## Hook Setup
 
-Add to your `~/.claude/settings.json`:
+添加到你的 `~/.claude/settings.json`：
 
 ```json
 {
@@ -47,17 +47,17 @@ Add to your `~/.claude/settings.json`:
 
 ## Configuration
 
-Environment variables:
-- `COMPACT_THRESHOLD` - Tool calls before first suggestion (default: 50)
+环境变量：
+- `COMPACT_THRESHOLD` - 首次建议前的工具调用次数（默认：50）
 
 ## Best Practices
 
-1. **Compact after planning** - Once plan is finalized, compact to start fresh
-2. **Compact after debugging** - Clear error-resolution context before continuing
-3. **Don't compact mid-implementation** - Preserve context for related changes
-4. **Read the suggestion** - The hook tells you *when*, you decide *if*
+1. **Compact after planning** - 计划确定后压缩以全新开始
+2. **Compact after debugging** - 继续之前清除错误解决上下文
+3. **Don't compact mid-implementation** - 保留相关更改的上下文
+4. **Read the suggestion** - hook 告诉你*何时*，你决定*是否*
 
 ## Related
 
-- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Token optimization section
-- Memory persistence hooks - For state that survives compaction
+- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Token 优化章节
+- Memory persistence hooks - 用于在压缩中存活的状态

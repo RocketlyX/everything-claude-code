@@ -1,50 +1,50 @@
 ---
 name: tdd-workflow
-description: Use this skill when writing new features, fixing bugs, or refactoring code. Enforces test-driven development with 80%+ coverage including unit, integration, and E2E tests.
+description: 在编写新功能、修复 bugs 或重构代码时使用此 skill。执行测试驱动开发，确保 80%+ 覆盖率，包括单元测试、集成测试和 E2E 测试。
 ---
 
 # Test-Driven Development Workflow
 
-This skill ensures all code development follows TDD principles with comprehensive test coverage.
+此 skill 确保所有代码开发遵循 TDD 原则，并具有全面的测试覆盖率。
 
 ## When to Activate
 
-- Writing new features or functionality
-- Fixing bugs or issues
-- Refactoring existing code
-- Adding API endpoints
-- Creating new components
+- 编写新功能或功能
+- 修复 bugs 或问题
+- 重构现有代码
+- 添加 API endpoints
+- 创建新组件
 
 ## Core Principles
 
 ### 1. Tests BEFORE Code
-ALWAYS write tests first, then implement code to make tests pass.
+始终先写测试，然后实现代码使测试通过。
 
 ### 2. Coverage Requirements
-- Minimum 80% coverage (unit + integration + E2E)
-- All edge cases covered
-- Error scenarios tested
-- Boundary conditions verified
+- 最低 80% 覆盖率（单元 + 集成 + E2E）
+- 覆盖所有边缘情况
+- 测试错误场景
+- 验证边界条件
 
 ### 3. Test Types
 
 #### Unit Tests
-- Individual functions and utilities
-- Component logic
-- Pure functions
-- Helpers and utilities
+- 单独的函数和工具
+- 组件逻辑
+- 纯函数
+- 辅助函数和工具
 
 #### Integration Tests
 - API endpoints
-- Database operations
-- Service interactions
-- External API calls
+- 数据库操作
+- 服务交互
+- 外部 API 调用
 
 #### E2E Tests (Playwright)
-- Critical user flows
-- Complete workflows
-- Browser automation
-- UI interactions
+- 关键用户流程
+- 完整工作流
+- 浏览器自动化
+- UI 交互
 
 ## TDD Workflow Steps
 
@@ -52,30 +52,30 @@ ALWAYS write tests first, then implement code to make tests pass.
 ```
 As a [role], I want to [action], so that [benefit]
 
-Example:
+示例:
 As a user, I want to search for markets semantically,
 so that I can find relevant markets even without exact keywords.
 ```
 
 ### Step 2: Generate Test Cases
-For each user journey, create comprehensive test cases:
+对每个 user journey，创建全面的测试用例：
 
 ```typescript
 describe('Semantic Search', () => {
   it('returns relevant markets for query', async () => {
-    // Test implementation
+    // 测试实现
   })
 
   it('handles empty query gracefully', async () => {
-    // Test edge case
+    // 测试边缘情况
   })
 
   it('falls back to substring search when Redis unavailable', async () => {
-    // Test fallback behavior
+    // 测试回退行为
   })
 
   it('sorts results by similarity score', async () => {
-    // Test sorting logic
+    // 测试排序逻辑
   })
 })
 ```
@@ -83,36 +83,36 @@ describe('Semantic Search', () => {
 ### Step 3: Run Tests (They Should Fail)
 ```bash
 npm test
-# Tests should fail - we haven't implemented yet
+# 测试应该失败 - 我们还没实现
 ```
 
 ### Step 4: Implement Code
-Write minimal code to make tests pass:
+编写最小代码使测试通过：
 
 ```typescript
-// Implementation guided by tests
+// 由测试指导的实现
 export async function searchMarkets(query: string) {
-  // Implementation here
+  // 在这里实现
 }
 ```
 
 ### Step 5: Run Tests Again
 ```bash
 npm test
-# Tests should now pass
+# 测试现在应该通过
 ```
 
 ### Step 6: Refactor
-Improve code quality while keeping tests green:
-- Remove duplication
-- Improve naming
-- Optimize performance
-- Enhance readability
+在保持测试绿色的同时改进代码质量：
+- 消除重复
+- 改进命名
+- 优化性能
+- 提高可读性
 
 ### Step 7: Verify Coverage
 ```bash
 npm run test:coverage
-# Verify 80%+ coverage achieved
+# 验证达到 80%+ 覆盖率
 ```
 
 ## Testing Patterns
@@ -168,9 +168,9 @@ describe('GET /api/markets', () => {
   })
 
   it('handles database errors gracefully', async () => {
-    // Mock database failure
+    // Mock 数据库失败
     const request = new NextRequest('http://localhost/api/markets')
-    // Test error handling
+    // 测试错误处理
   })
 })
 ```
@@ -180,50 +180,50 @@ describe('GET /api/markets', () => {
 import { test, expect } from '@playwright/test'
 
 test('user can search and filter markets', async ({ page }) => {
-  // Navigate to markets page
+  // 导航到 markets 页面
   await page.goto('/')
   await page.click('a[href="/markets"]')
 
-  // Verify page loaded
+  // 验证页面加载
   await expect(page.locator('h1')).toContainText('Markets')
 
-  // Search for markets
+  // 搜索 markets
   await page.fill('input[placeholder="Search markets"]', 'election')
 
-  // Wait for debounce and results
+  // 等待 debounce 和结果
   await page.waitForTimeout(600)
 
-  // Verify search results displayed
+  // 验证显示搜索结果
   const results = page.locator('[data-testid="market-card"]')
   await expect(results).toHaveCount(5, { timeout: 5000 })
 
-  // Verify results contain search term
+  // 验证结果包含搜索词
   const firstResult = results.first()
   await expect(firstResult).toContainText('election', { ignoreCase: true })
 
-  // Filter by status
+  // 按状态过滤
   await page.click('button:has-text("Active")')
 
-  // Verify filtered results
+  // 验证过滤后的结果
   await expect(results).toHaveCount(3)
 })
 
 test('user can create a new market', async ({ page }) => {
-  // Login first
+  // 首先登录
   await page.goto('/creator-dashboard')
 
-  // Fill market creation form
+  // 填写 market 创建表单
   await page.fill('input[name="name"]', 'Test Market')
   await page.fill('textarea[name="description"]', 'Test description')
   await page.fill('input[name="endDate"]', '2025-12-31')
 
-  // Submit form
+  // 提交表单
   await page.click('button[type="submit"]')
 
-  // Verify success message
+  // 验证成功消息
   await expect(page.locator('text=Market created successfully')).toBeVisible()
 
-  // Verify redirect to market page
+  // 验证重定向到 market 页面
   await expect(page).toHaveURL(/\/markets\/test-market/)
 })
 ```
@@ -235,7 +235,7 @@ src/
 ├── components/
 │   ├── Button/
 │   │   ├── Button.tsx
-│   │   ├── Button.test.tsx          # Unit tests
+│   │   ├── Button.test.tsx          # 单元测试
 │   │   └── Button.stories.tsx       # Storybook
 │   └── MarketCard/
 │       ├── MarketCard.tsx
@@ -244,118 +244,58 @@ src/
 │   └── api/
 │       └── markets/
 │           ├── route.ts
-│           └── route.test.ts         # Integration tests
+│           └── route.test.ts         # 集成测试
 └── e2e/
-    ├── markets.spec.ts               # E2E tests
+    ├── markets.spec.ts               # E2E 测试
     ├── trading.spec.ts
     └── auth.spec.ts
-```
-
-## Mocking External Services
-
-### Supabase Mock
-```typescript
-jest.mock('@/lib/supabase', () => ({
-  supabase: {
-    from: jest.fn(() => ({
-      select: jest.fn(() => ({
-        eq: jest.fn(() => Promise.resolve({
-          data: [{ id: 1, name: 'Test Market' }],
-          error: null
-        }))
-      }))
-    }))
-  }
-}))
-```
-
-### Redis Mock
-```typescript
-jest.mock('@/lib/redis', () => ({
-  searchMarketsByVector: jest.fn(() => Promise.resolve([
-    { slug: 'test-market', similarity_score: 0.95 }
-  ])),
-  checkRedisHealth: jest.fn(() => Promise.resolve({ connected: true }))
-}))
-```
-
-### OpenAI Mock
-```typescript
-jest.mock('@/lib/openai', () => ({
-  generateEmbedding: jest.fn(() => Promise.resolve(
-    new Array(1536).fill(0.1) // Mock 1536-dim embedding
-  ))
-}))
-```
-
-## Test Coverage Verification
-
-### Run Coverage Report
-```bash
-npm run test:coverage
-```
-
-### Coverage Thresholds
-```json
-{
-  "jest": {
-    "coverageThresholds": {
-      "global": {
-        "branches": 80,
-        "functions": 80,
-        "lines": 80,
-        "statements": 80
-      }
-    }
-  }
-}
 ```
 
 ## Common Testing Mistakes to Avoid
 
 ### ❌ WRONG: Testing Implementation Details
 ```typescript
-// Don't test internal state
+// 不要测试内部状态
 expect(component.state.count).toBe(5)
 ```
 
 ### ✅ CORRECT: Test User-Visible Behavior
 ```typescript
-// Test what users see
+// 测试用户看到的
 expect(screen.getByText('Count: 5')).toBeInTheDocument()
 ```
 
 ### ❌ WRONG: Brittle Selectors
 ```typescript
-// Breaks easily
+// 容易中断
 await page.click('.css-class-xyz')
 ```
 
 ### ✅ CORRECT: Semantic Selectors
 ```typescript
-// Resilient to changes
+// 对变更有弹性
 await page.click('button:has-text("Submit")')
 await page.click('[data-testid="submit-button"]')
 ```
 
 ### ❌ WRONG: No Test Isolation
 ```typescript
-// Tests depend on each other
+// 测试相互依赖
 test('creates user', () => { /* ... */ })
-test('updates same user', () => { /* depends on previous test */ })
+test('updates same user', () => { /* 依赖前一个测试 */ })
 ```
 
 ### ✅ CORRECT: Independent Tests
 ```typescript
-// Each test sets up its own data
+// 每个测试设置自己的数据
 test('creates user', () => {
   const user = createTestUser()
-  // Test logic
+  // 测试逻辑
 })
 
 test('updates user', () => {
   const user = createTestUser()
-  // Update logic
+  // 更新逻辑
 })
 ```
 
@@ -364,12 +304,12 @@ test('updates user', () => {
 ### Watch Mode During Development
 ```bash
 npm test -- --watch
-# Tests run automatically on file changes
+# 文件更改时自动运行测试
 ```
 
 ### Pre-Commit Hook
 ```bash
-# Runs before every commit
+# 每次提交前运行
 npm test && npm run lint
 ```
 
@@ -384,26 +324,26 @@ npm test && npm run lint
 
 ## Best Practices
 
-1. **Write Tests First** - Always TDD
-2. **One Assert Per Test** - Focus on single behavior
-3. **Descriptive Test Names** - Explain what's tested
-4. **Arrange-Act-Assert** - Clear test structure
-5. **Mock External Dependencies** - Isolate unit tests
+1. **Write Tests First** - 始终 TDD
+2. **One Assert Per Test** - 专注于单一行为
+3. **Descriptive Test Names** - 解释测试内容
+4. **Arrange-Act-Assert** - 清晰的测试结构
+5. **Mock External Dependencies** - 隔离单元测试
 6. **Test Edge Cases** - Null, undefined, empty, large
-7. **Test Error Paths** - Not just happy paths
-8. **Keep Tests Fast** - Unit tests < 50ms each
-9. **Clean Up After Tests** - No side effects
-10. **Review Coverage Reports** - Identify gaps
+7. **Test Error Paths** - 不只是 happy paths
+8. **Keep Tests Fast** - 单元测试 < 50ms each
+9. **Clean Up After Tests** - 无副作用
+10. **Review Coverage Reports** - 识别差距
 
 ## Success Metrics
 
-- 80%+ code coverage achieved
-- All tests passing (green)
-- No skipped or disabled tests
-- Fast test execution (< 30s for unit tests)
-- E2E tests cover critical user flows
-- Tests catch bugs before production
+- 80%+ 代码覆盖率
+- 所有测试通过（绿色）
+- 无跳过或禁用的测试
+- 快速测试执行（单元测试 < 30s）
+- E2E 测试覆盖关键用户流程
+- 测试在生产前捕获 bugs
 
 ---
 
-**Remember**: Tests are not optional. They are the safety net that enables confident refactoring, rapid development, and production reliability.
+**Remember**: 测试不是可选的。它们是支持自信重构、快速开发和生产可靠性的安全网。

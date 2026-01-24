@@ -2,7 +2,7 @@
 
 ## Mandatory Security Checks
 
-Before ANY commit:
+任何提交之前：
 - [ ] No hardcoded secrets (API keys, passwords, tokens)
 - [ ] All user inputs validated
 - [ ] SQL injection prevention (parameterized queries)
@@ -28,9 +28,9 @@ if (!apiKey) {
 
 ## Security Response Protocol
 
-If security issue found:
-1. STOP immediately
-2. Use **security-reviewer** agent
-3. Fix CRITICAL issues before continuing
-4. Rotate any exposed secrets
-5. Review entire codebase for similar issues
+如果发现安全问题：
+1. 立即停止
+2. 使用 **security-reviewer** agent
+3. 继续之前修复 CRITICAL 问题
+4. 轮换任何暴露的 secrets
+5. 审查整个代码库是否有类似问题

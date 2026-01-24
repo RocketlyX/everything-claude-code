@@ -1,40 +1,40 @@
 # Code Review
 
-Comprehensive security and quality review of uncommitted changes:
+对未提交的变更进行全面的安全和质量审查：
 
-1. Get changed files: git diff --name-only HEAD
+1. 获取变更的文件：git diff --name-only HEAD
 
-2. For each changed file, check for:
+2. 对于每个变更的文件，检查：
 
 **Security Issues (CRITICAL):**
-- Hardcoded credentials, API keys, tokens
-- SQL injection vulnerabilities
-- XSS vulnerabilities  
-- Missing input validation
-- Insecure dependencies
-- Path traversal risks
+- 硬编码的凭证、API keys、tokens
+- SQL injection 漏洞
+- XSS 漏洞
+- 缺失的输入验证
+- 不安全的依赖
+- Path traversal 风险
 
 **Code Quality (HIGH):**
-- Functions > 50 lines
-- Files > 800 lines
-- Nesting depth > 4 levels
-- Missing error handling
-- console.log statements
-- TODO/FIXME comments
-- Missing JSDoc for public APIs
+- 函数 > 50 行
+- 文件 > 800 行
+- 嵌套深度 > 4 层
+- 缺失错误处理
+- console.log 语句
+- TODO/FIXME 注释
+- 公共 APIs 缺失 JSDoc
 
 **Best Practices (MEDIUM):**
-- Mutation patterns (use immutable instead)
-- Emoji usage in code/comments
-- Missing tests for new code
-- Accessibility issues (a11y)
+- Mutation patterns（改用 immutable）
+- 代码/注释中使用 Emoji
+- 新代码缺失测试
+- Accessibility 问题 (a11y)
 
-3. Generate report with:
-   - Severity: CRITICAL, HIGH, MEDIUM, LOW
-   - File location and line numbers
-   - Issue description
-   - Suggested fix
+3. 生成报告，包含：
+   - 严重性：CRITICAL、HIGH、MEDIUM、LOW
+   - 文件位置和行号
+   - 问题描述
+   - 建议的修复
 
-4. Block commit if CRITICAL or HIGH issues found
+4. 如果发现 CRITICAL 或 HIGH 问题，阻止 commit
 
-Never approve code with security vulnerabilities!
+永远不要批准存在安全漏洞的代码！

@@ -1,21 +1,21 @@
 ---
 name: security-review
-description: Use this skill when adding authentication, handling user input, working with secrets, creating API endpoints, or implementing payment/sensitive features. Provides comprehensive security checklist and patterns.
+description: 在添加认证、处理用户输入、使用 secrets、创建 API endpoints 或实现支付/敏感功能时使用此 skill。提供全面的安全检查清单和模式。
 ---
 
 # Security Review Skill
 
-This skill ensures all code follows security best practices and identifies potential vulnerabilities.
+此 skill 确保所有代码遵循安全最佳实践，并识别潜在漏洞。
 
 ## When to Activate
 
-- Implementing authentication or authorization
-- Handling user input or file uploads
-- Creating new API endpoints
-- Working with secrets or credentials
-- Implementing payment features
-- Storing or transmitting sensitive data
-- Integrating third-party APIs
+- 实现认证或授权
+- 处理用户输入或文件上传
+- 创建新的 API endpoints
+- 使用 secrets 或凭证
+- 实现支付功能
+- 存储或传输敏感数据
+- 集成第三方 APIs
 
 ## Security Checklist
 
@@ -23,8 +23,8 @@ This skill ensures all code follows security best practices and identifies poten
 
 #### ❌ NEVER Do This
 ```typescript
-const apiKey = "sk-proj-xxxxx"  // Hardcoded secret
-const dbPassword = "password123" // In source code
+const apiKey = "sk-proj-xxxxx"  // 硬编码 secret
+const dbPassword = "password123" // 在源代码中
 ```
 
 #### ✅ ALWAYS Do This
@@ -32,7 +32,7 @@ const dbPassword = "password123" // In source code
 const apiKey = process.env.OPENAI_API_KEY
 const dbUrl = process.env.DATABASE_URL
 
-// Verify secrets exist
+// 验证 secrets 存在
 if (!apiKey) {
   throw new Error('OPENAI_API_KEY not configured')
 }
@@ -51,14 +51,14 @@ if (!apiKey) {
 ```typescript
 import { z } from 'zod'
 
-// Define validation schema
+// 定义验证 schema
 const CreateUserSchema = z.object({
   email: z.string().email(),
   name: z.string().min(1).max(100),
   age: z.number().int().min(0).max(150)
 })
 
-// Validate before processing
+// 处理前验证
 export async function createUser(input: unknown) {
   try {
     const validated = CreateUserSchema.parse(input)
@@ -75,19 +75,19 @@ export async function createUser(input: unknown) {
 #### File Upload Validation
 ```typescript
 function validateFileUpload(file: File) {
-  // Size check (5MB max)
+  // 大小检查（最大 5MB）
   const maxSize = 5 * 1024 * 1024
   if (file.size > maxSize) {
     throw new Error('File too large (max 5MB)')
   }
 
-  // Type check
+  // 类型检查
   const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']
   if (!allowedTypes.includes(file.type)) {
     throw new Error('Invalid file type')
   }
 
-  // Extension check
+  // 扩展名检查
   const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif']
   const extension = file.name.toLowerCase().match(/\.[^.]+$/)?.[0]
   if (!extension || !allowedExtensions.includes(extension)) {
@@ -109,20 +109,20 @@ function validateFileUpload(file: File) {
 
 #### ❌ NEVER Concatenate SQL
 ```typescript
-// DANGEROUS - SQL Injection vulnerability
+// 危险 - SQL 注入漏洞
 const query = `SELECT * FROM users WHERE email = '${userEmail}'`
 await db.query(query)
 ```
 
 #### ✅ ALWAYS Use Parameterized Queries
 ```typescript
-// Safe - parameterized query
+// 安全 - 参数化查询
 const { data } = await supabase
   .from('users')
   .select('*')
   .eq('email', userEmail)
 
-// Or with raw SQL
+// 或使用原始 SQL
 await db.query(
   'SELECT * FROM users WHERE email = $1',
   [userEmail]
@@ -139,7 +139,7 @@ await db.query(
 
 #### JWT Token Handling
 ```typescript
-// ❌ WRONG: localStorage (vulnerable to XSS)
+// ❌ WRONG: localStorage（易受 XSS 攻击）
 localStorage.setItem('token', token)
 
 // ✅ CORRECT: httpOnly cookies
@@ -150,7 +150,7 @@ res.setHeader('Set-Cookie',
 #### Authorization Checks
 ```typescript
 export async function deleteUser(userId: string, requesterId: string) {
-  // ALWAYS verify authorization first
+  // 始终先验证授权
   const requester = await db.users.findUnique({
     where: { id: requesterId }
   })
@@ -162,22 +162,22 @@ export async function deleteUser(userId: string, requesterId: string) {
     )
   }
 
-  // Proceed with deletion
+  // 继续删除
   await db.users.delete({ where: { id: userId } })
 }
 ```
 
 #### Row Level Security (Supabase)
 ```sql
--- Enable RLS on all tables
+-- 在所有表上启用 RLS
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 
--- Users can only view their own data
+-- 用户只能查看自己的数据
 CREATE POLICY "Users view own data"
   ON users FOR SELECT
   USING (auth.uid() = id);
 
--- Users can only update their own data
+-- 用户只能更新自己的数据
 CREATE POLICY "Users update own data"
   ON users FOR UPDATE
   USING (auth.uid() = id);
@@ -196,7 +196,7 @@ CREATE POLICY "Users update own data"
 ```typescript
 import DOMPurify from 'isomorphic-dompurify'
 
-// ALWAYS sanitize user-provided HTML
+// 始终清理用户提供的 HTML
 function renderUserContent(html: string) {
   const clean = DOMPurify.sanitize(html, {
     ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'p'],
@@ -204,24 +204,6 @@ function renderUserContent(html: string) {
   })
   return <div dangerouslySetInnerHTML={{ __html: clean }} />
 }
-```
-
-#### Content Security Policy
-```typescript
-// next.config.js
-const securityHeaders = [
-  {
-    key: 'Content-Security-Policy',
-    value: `
-      default-src 'self';
-      script-src 'self' 'unsafe-eval' 'unsafe-inline';
-      style-src 'self' 'unsafe-inline';
-      img-src 'self' data: https:;
-      font-src 'self';
-      connect-src 'self' https://api.example.com;
-    `.replace(/\s{2,}/g, ' ').trim()
-  }
-]
 ```
 
 #### Verification Steps
@@ -246,14 +228,8 @@ export async function POST(request: Request) {
     )
   }
 
-  // Process request
+  // 处理请求
 }
-```
-
-#### SameSite Cookies
-```typescript
-res.setHeader('Set-Cookie',
-  `session=${sessionId}; HttpOnly; Secure; SameSite=Strict`)
 ```
 
 #### Verification Steps
@@ -268,25 +244,13 @@ res.setHeader('Set-Cookie',
 import rateLimit from 'express-rate-limit'
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // 100 requests per window
+  windowMs: 15 * 60 * 1000, // 15 分钟
+  max: 100, // 每窗口 100 个请求
   message: 'Too many requests'
 })
 
-// Apply to routes
+// 应用到路由
 app.use('/api/', limiter)
-```
-
-#### Expensive Operations
-```typescript
-// Aggressive rate limiting for searches
-const searchLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 10, // 10 requests per minute
-  message: 'Too many search requests'
-})
-
-app.use('/api/search', searchLimiter)
 ```
 
 #### Verification Steps
@@ -299,18 +263,18 @@ app.use('/api/search', searchLimiter)
 
 #### Logging
 ```typescript
-// ❌ WRONG: Logging sensitive data
+// ❌ WRONG: 记录敏感数据
 console.log('User login:', { email, password })
 console.log('Payment:', { cardNumber, cvv })
 
-// ✅ CORRECT: Redact sensitive data
+// ✅ CORRECT: 脱敏敏感数据
 console.log('User login:', { email, userId })
 console.log('Payment:', { last4: card.last4, userId })
 ```
 
 #### Error Messages
 ```typescript
-// ❌ WRONG: Exposing internal details
+// ❌ WRONG: 暴露内部细节
 catch (error) {
   return NextResponse.json(
     { error: error.message, stack: error.stack },
@@ -318,7 +282,7 @@ catch (error) {
   )
 }
 
-// ✅ CORRECT: Generic error messages
+// ✅ CORRECT: 通用错误消息
 catch (error) {
   console.error('Internal error:', error)
   return NextResponse.json(
@@ -334,83 +298,21 @@ catch (error) {
 - [ ] Detailed errors only in server logs
 - [ ] No stack traces exposed to users
 
-### 9. Blockchain Security (Solana)
-
-#### Wallet Verification
-```typescript
-import { verify } from '@solana/web3.js'
-
-async function verifyWalletOwnership(
-  publicKey: string,
-  signature: string,
-  message: string
-) {
-  try {
-    const isValid = verify(
-      Buffer.from(message),
-      Buffer.from(signature, 'base64'),
-      Buffer.from(publicKey, 'base64')
-    )
-    return isValid
-  } catch (error) {
-    return false
-  }
-}
-```
-
-#### Transaction Verification
-```typescript
-async function verifyTransaction(transaction: Transaction) {
-  // Verify recipient
-  if (transaction.to !== expectedRecipient) {
-    throw new Error('Invalid recipient')
-  }
-
-  // Verify amount
-  if (transaction.amount > maxAmount) {
-    throw new Error('Amount exceeds limit')
-  }
-
-  // Verify user has sufficient balance
-  const balance = await getBalance(transaction.from)
-  if (balance < transaction.amount) {
-    throw new Error('Insufficient balance')
-  }
-
-  return true
-}
-```
-
-#### Verification Steps
-- [ ] Wallet signatures verified
-- [ ] Transaction details validated
-- [ ] Balance checks before transactions
-- [ ] No blind transaction signing
-
-### 10. Dependency Security
+### 9. Dependency Security
 
 #### Regular Updates
 ```bash
-# Check for vulnerabilities
+# 检查漏洞
 npm audit
 
-# Fix automatically fixable issues
+# 自动修复可修复的问题
 npm audit fix
 
-# Update dependencies
+# 更新依赖
 npm update
 
-# Check for outdated packages
+# 检查过时的包
 npm outdated
-```
-
-#### Lock Files
-```bash
-# ALWAYS commit lock files
-git add package-lock.json
-
-# Use in CI/CD for reproducible builds
-npm ci  # Instead of npm install
 ```
 
 #### Verification Steps
@@ -420,49 +322,9 @@ npm ci  # Instead of npm install
 - [ ] Dependabot enabled on GitHub
 - [ ] Regular security updates
 
-## Security Testing
-
-### Automated Security Tests
-```typescript
-// Test authentication
-test('requires authentication', async () => {
-  const response = await fetch('/api/protected')
-  expect(response.status).toBe(401)
-})
-
-// Test authorization
-test('requires admin role', async () => {
-  const response = await fetch('/api/admin', {
-    headers: { Authorization: `Bearer ${userToken}` }
-  })
-  expect(response.status).toBe(403)
-})
-
-// Test input validation
-test('rejects invalid input', async () => {
-  const response = await fetch('/api/users', {
-    method: 'POST',
-    body: JSON.stringify({ email: 'not-an-email' })
-  })
-  expect(response.status).toBe(400)
-})
-
-// Test rate limiting
-test('enforces rate limits', async () => {
-  const requests = Array(101).fill(null).map(() =>
-    fetch('/api/endpoint')
-  )
-
-  const responses = await Promise.all(requests)
-  const tooManyRequests = responses.filter(r => r.status === 429)
-
-  expect(tooManyRequests.length).toBeGreaterThan(0)
-})
-```
-
 ## Pre-Deployment Security Checklist
 
-Before ANY production deployment:
+任何生产部署之前：
 
 - [ ] **Secrets**: No hardcoded secrets, all in env vars
 - [ ] **Input Validation**: All user inputs validated
@@ -480,7 +342,6 @@ Before ANY production deployment:
 - [ ] **Row Level Security**: Enabled in Supabase
 - [ ] **CORS**: Properly configured
 - [ ] **File Uploads**: Validated (size, type)
-- [ ] **Wallet Signatures**: Verified (if blockchain)
 
 ## Resources
 
@@ -491,4 +352,4 @@ Before ANY production deployment:
 
 ---
 
-**Remember**: Security is not optional. One vulnerability can compromise the entire platform. When in doubt, err on the side of caution.
+**Remember**: 安全不是可选的。一个漏洞可能危及整个平台。当不确定时，宁可谨慎。

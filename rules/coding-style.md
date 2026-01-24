@@ -2,7 +2,7 @@
 
 ## Immutability (CRITICAL)
 
-ALWAYS create new objects, NEVER mutate:
+始终创建新对象，永不 mutate：
 
 ```javascript
 // WRONG: Mutation
@@ -22,15 +22,15 @@ function updateUser(user, name) {
 
 ## File Organization
 
-MANY SMALL FILES > FEW LARGE FILES:
-- High cohesion, low coupling
-- 200-400 lines typical, 800 max
-- Extract utilities from large components
-- Organize by feature/domain, not by type
+多个小文件 > 少数大文件：
+- 高内聚，低耦合
+- 通常 200-400 行，最多 800 行
+- 从大组件中提取工具函数
+- 按功能/领域组织，而非按类型
 
 ## Error Handling
 
-ALWAYS handle errors comprehensively:
+始终全面处理错误：
 
 ```typescript
 try {
@@ -44,7 +44,7 @@ try {
 
 ## Input Validation
 
-ALWAYS validate user input:
+始终验证用户输入：
 
 ```typescript
 import { z } from 'zod'
@@ -59,7 +59,7 @@ const validated = schema.parse(input)
 
 ## Code Quality Checklist
 
-Before marking work complete:
+标记工作完成前：
 - [ ] Code is readable and well-named
 - [ ] Functions are small (<50 lines)
 - [ ] Files are focused (<800 lines)

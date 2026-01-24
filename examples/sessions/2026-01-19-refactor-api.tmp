@@ -7,7 +7,7 @@
 
 ## Current State
 
-Standardizing error handling across all API endpoints. Moving from ad-hoc try/catch to centralized error middleware.
+标准化所有 API endpoints 的错误处理。从临时 try/catch 迁移到集中式错误中间件。
 
 ### Completed
 - [x] Created AppError class with status codes
@@ -16,9 +16,9 @@ Standardizing error handling across all API endpoints. Moving from ad-hoc try/ca
 - [x] Migrated `/products` routes
 
 ### Key Findings
-- 47 endpoints with inconsistent error responses
-- Some returning `{ error: message }`, others `{ message: message }`
-- No consistent HTTP status codes
+- 47 个 endpoints 有不一致的错误响应
+- 有些返回 `{ error: message }`，有些返回 `{ message: message }`
+- 没有一致的 HTTP status codes
 
 ### Error Response Standard
 ```javascript
@@ -27,14 +27,14 @@ Standardizing error handling across all API endpoints. Moving from ad-hoc try/ca
   error: {
     code: 'VALIDATION_ERROR',
     message: 'Email is required',
-    field: 'email'  // optional, for validation errors
+    field: 'email'  // 可选，用于验证错误
   }
 }
 ```
 
-### Notes for Next Session
-- Migrate remaining routes: `/orders`, `/payments`, `/admin`
-- Add error logging to monitoring service
+### 下次会话备注
+- 迁移剩余路由: `/orders`, `/payments`, `/admin`
+- 将错误日志添加到监控服务
 
 ### Context to Load
 ```

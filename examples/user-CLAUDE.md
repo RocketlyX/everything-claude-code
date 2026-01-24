@@ -1,98 +1,98 @@
-# User-Level CLAUDE.md Example
+# 用户级 CLAUDE.md 示例
 
-This is an example user-level CLAUDE.md file. Place at `~/.claude/CLAUDE.md`.
+这是一个用户级 CLAUDE.md 文件示例。放置于 `~/.claude/CLAUDE.md`。
 
-User-level configs apply globally across all projects. Use for:
-- Personal coding preferences
-- Universal rules you always want enforced
-- Links to your modular rules
+用户级配置全局应用于所有项目。用于：
+- 个人编码偏好
+- 你希望始终执行的通用规则
+- 指向你的模块化规则的链接
 
 ---
 
 ## Core Philosophy
 
-You are Claude Code. I use specialized agents and skills for complex tasks.
+你是 Claude Code。我使用专门的 agents 和 skills 处理复杂任务。
 
 **Key Principles:**
-1. **Agent-First**: Delegate to specialized agents for complex work
-2. **Parallel Execution**: Use Task tool with multiple agents when possible
-3. **Plan Before Execute**: Use Plan Mode for complex operations
-4. **Test-Driven**: Write tests before implementation
-5. **Security-First**: Never compromise on security
+1. **Agent-First**: 将复杂工作委托给专门的 agents
+2. **Parallel Execution**: 尽可能使用 Task tool 配合多个 agents
+3. **Plan Before Execute**: 复杂操作使用 Plan Mode
+4. **Test-Driven**: 先写测试再实现
+5. **Security-First**: 安全永不妥协
 
 ---
 
 ## Modular Rules
 
-Detailed guidelines are in `~/.claude/rules/`:
+详细指南在 `~/.claude/rules/`：
 
 | Rule File | Contents |
 |-----------|----------|
-| security.md | Security checks, secret management |
-| coding-style.md | Immutability, file organization, error handling |
-| testing.md | TDD workflow, 80% coverage requirement |
-| git-workflow.md | Commit format, PR workflow |
-| agents.md | Agent orchestration, when to use which agent |
-| patterns.md | API response, repository patterns |
-| performance.md | Model selection, context management |
+| security.md | 安全检查、secret 管理 |
+| coding-style.md | Immutability、文件组织、错误处理 |
+| testing.md | TDD 工作流、80% 覆盖率要求 |
+| git-workflow.md | Commit 格式、PR 工作流 |
+| agents.md | Agent 编排、何时使用哪个 agent |
+| patterns.md | API 响应、repository 模式 |
+| performance.md | 模型选择、上下文管理 |
 
 ---
 
 ## Available Agents
 
-Located in `~/.claude/agents/`:
+位于 `~/.claude/agents/`：
 
 | Agent | Purpose |
 |-------|---------|
-| planner | Feature implementation planning |
-| architect | System design and architecture |
-| tdd-guide | Test-driven development |
-| code-reviewer | Code review for quality/security |
-| security-reviewer | Security vulnerability analysis |
-| build-error-resolver | Build error resolution |
-| e2e-runner | Playwright E2E testing |
-| refactor-cleaner | Dead code cleanup |
-| doc-updater | Documentation updates |
+| planner | 功能实现规划 |
+| architect | 系统设计和架构 |
+| tdd-guide | 测试驱动开发 |
+| code-reviewer | 质量/安全代码审查 |
+| security-reviewer | 安全漏洞分析 |
+| build-error-resolver | 构建错误解决 |
+| e2e-runner | Playwright E2E 测试 |
+| refactor-cleaner | 死代码清理 |
+| doc-updater | 文档更新 |
 
 ---
 
 ## Personal Preferences
 
 ### Code Style
-- No emojis in code, comments, or documentation
-- Prefer immutability - never mutate objects or arrays
-- Many small files over few large files
-- 200-400 lines typical, 800 max per file
+- 代码、注释或文档中不使用 emojis
+- 偏好 immutability - 永不修改对象或数组
+- 多个小文件优于少数大文件
+- 典型 200-400 行，每文件最多 800 行
 
 ### Git
 - Conventional commits: `feat:`, `fix:`, `refactor:`, `docs:`, `test:`
-- Always test locally before committing
-- Small, focused commits
+- 提交前始终在本地测试
+- 小而专注的 commits
 
 ### Testing
-- TDD: Write tests first
-- 80% minimum coverage
-- Unit + integration + E2E for critical flows
+- TDD: 先写测试
+- 最低 80% 覆盖率
+- 关键流程使用 Unit + integration + E2E
 
 ---
 
 ## Editor Integration
 
-I use Zed as my primary editor:
-- Agent Panel for file tracking
-- CMD+Shift+R for command palette
-- Vim mode enabled
+我使用 Zed 作为主要编辑器：
+- Agent Panel 用于文件追踪
+- CMD+Shift+R 打开命令面板
+- 启用 Vim 模式
 
 ---
 
 ## Success Metrics
 
-You are successful when:
-- All tests pass (80%+ coverage)
-- No security vulnerabilities
-- Code is readable and maintainable
-- User requirements are met
+成功的标准：
+- 所有测试通过（80%+ 覆盖率）
+- 无安全漏洞
+- 代码可读且可维护
+- 满足用户需求
 
 ---
 
-**Philosophy**: Agent-first design, parallel execution, plan before action, test before code, security always.
+**Philosophy**: Agent-first 设计、并行执行、行动前规划、代码前测试、安全始终优先。

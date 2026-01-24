@@ -1,23 +1,23 @@
 ---
 name: continuous-learning
-description: Automatically extract reusable patterns from Claude Code sessions and save them as learned skills for future use.
+description: 在 Claude Code 会话结束时自动提取可复用模式，并将其保存为 learned skills 供未来使用。
 ---
 
 # Continuous Learning Skill
 
-Automatically evaluates Claude Code sessions on end to extract reusable patterns that can be saved as learned skills.
+在每个会话结束时自动评估 Claude Code 会话，提取可复用模式并保存为 learned skills。
 
 ## How It Works
 
-This skill runs as a **Stop hook** at the end of each session:
+此 skill 作为 **Stop hook** 在每个会话结束时运行：
 
-1. **Session Evaluation**: Checks if session has enough messages (default: 10+)
-2. **Pattern Detection**: Identifies extractable patterns from the session
-3. **Skill Extraction**: Saves useful patterns to `~/.claude/skills/learned/`
+1. **Session Evaluation**: 检查会话是否有足够的消息（默认：10+）
+2. **Pattern Detection**: 从会话中识别可提取的模式
+3. **Skill Extraction**: 将有用的模式保存到 `~/.claude/skills/learned/`
 
 ## Configuration
 
-Edit `config.json` to customize:
+编辑 `config.json` 进行自定义：
 
 ```json
 {
@@ -44,15 +44,15 @@ Edit `config.json` to customize:
 
 | Pattern | Description |
 |---------|-------------|
-| `error_resolution` | How specific errors were resolved |
-| `user_corrections` | Patterns from user corrections |
-| `workarounds` | Solutions to framework/library quirks |
-| `debugging_techniques` | Effective debugging approaches |
-| `project_specific` | Project-specific conventions |
+| `error_resolution` | 特定错误如何被解决 |
+| `user_corrections` | 从用户纠正中提取的模式 |
+| `workarounds` | 框架/库特殊行为的解决方案 |
+| `debugging_techniques` | 有效的调试方法 |
+| `project_specific` | 项目特定的约定 |
 
 ## Hook Setup
 
-Add to your `~/.claude/settings.json`:
+添加到你的 `~/.claude/settings.json`：
 
 ```json
 {
@@ -70,11 +70,11 @@ Add to your `~/.claude/settings.json`:
 
 ## Why Stop Hook?
 
-- **Lightweight**: Runs once at session end
-- **Non-blocking**: Doesn't add latency to every message
-- **Complete context**: Has access to full session transcript
+- **Lightweight**: 会话结束时只运行一次
+- **Non-blocking**: 不会给每条消息增加延迟
+- **Complete context**: 可以访问完整的会话记录
 
 ## Related
 
-- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Section on continuous learning
-- `/learn` command - Manual pattern extraction mid-session
+- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - 持续学习章节
+- `/learn` command - 会话中手动模式提取

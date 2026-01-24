@@ -7,7 +7,7 @@
 
 ## Current State
 
-Working on JWT authentication flow for the API. Main goal is replacing session-based auth with stateless tokens.
+为 API 实现 JWT 认证流程。主要目标是用无状态 tokens 替换基于 session 的认证。
 
 ### Completed
 - [x] Set up JWT signing with RS256
@@ -19,24 +19,24 @@ Working on JWT authentication flow for the API. Main goal is replacing session-b
 - [ ] Add rate limiting to auth endpoints
 - [ ] Implement token blacklist for logout
 
-### Blockers Encountered
-1. **jsonwebtoken version mismatch** - v9.x changed the `verify()` signature, had to update error handling
-2. **Redis TTL for refresh tokens** - Was setting TTL in seconds but passing milliseconds
+### 遇到的阻碍
+1. **jsonwebtoken version mismatch** - v9.x 更改了 `verify()` 签名，需要更新错误处理
+2. **Redis TTL for refresh tokens** - TTL 设置用的是秒但传的是毫秒
 
-### Key Decisions Made
-- Using RS256 over HS256 for better security with distributed services
-- Storing refresh tokens in Redis with 7-day TTL
-- Access tokens expire in 15 minutes
+### 已做的关键决策
+- 使用 RS256 而非 HS256 以获得分布式服务更好的安全性
+- 在 Redis 中存储 refresh tokens，TTL 为 7 天
+- Access tokens 15 分钟过期
 
-### Code Locations Modified
-- `src/middleware/auth.js` - JWT verification middleware
+### 修改的代码位置
+- `src/middleware/auth.js` - JWT 验证中间件
 - `src/routes/auth.js` - Login/logout/refresh endpoints
-- `src/services/token.service.js` - Token generation and validation
+- `src/services/token.service.js` - Token 生成和验证
 
-### Notes for Next Session
-- Need to add CSRF protection for cookie-based token storage
-- Consider adding fingerprinting for refresh token binding
-- Review rate limit values with team
+### 下次会话备注
+- 需要为基于 cookie 的 token 存储添加 CSRF 保护
+- 考虑为 refresh token 绑定添加 fingerprinting
+- 与团队审查 rate limit 值
 
 ### Context to Load
 ```
@@ -49,28 +49,28 @@ src/services/token.service.js
 
 ## Session Log
 
-**14:30** - Started session, goal is JWT implementation
+**14:30** - 开始会话，目标是 JWT 实现
 
-**14:45** - Set up basic JWT signing. Using RS256 with key pair stored in env vars.
+**14:45** - 设置基本 JWT 签名。使用存储在 env vars 中的密钥对的 RS256。
 
-**15:20** - Login endpoint working. Discovered jsonwebtoken v9 breaking change - `verify()` now throws different error types. Updated catch block:
+**15:20** - Login endpoint 工作正常。发现 jsonwebtoken v9 破坏性更改 - `verify()` 现在抛出不同的错误类型。更新了 catch 块：
 ```javascript
-// Old (v8)
+// 旧版 (v8)
 if (err.name === 'TokenExpiredError') { ... }
 
-// New (v9)
+// 新版 (v9)
 if (err instanceof jwt.TokenExpiredError) { ... }
 ```
 
-**16:00** - Refresh token rotation working but tokens expiring immediately. Bug: was passing `Date.now()` (milliseconds) to `expiresIn` which expects seconds. Fixed:
+**16:00** - Refresh token rotation 工作正常但 tokens 立即过期。Bug: 向期望秒的 `expiresIn` 传递了 `Date.now()`（毫秒）。已修复：
 ```javascript
-// Wrong
+// 错误
 expiresIn: Date.now() + 900000
 
-// Correct
+// 正确
 expiresIn: '15m'
 ```
 
-**17:30** - Auth flow complete. Login -> access token -> refresh -> new tokens. Ready for rate limiting tomorrow.
+**17:30** - Auth 流程完成。Login -> access token -> refresh -> new tokens。准备明天进行 rate limiting。
 
-**17:45** - Saving session state.
+**17:45** - 保存会话状态。

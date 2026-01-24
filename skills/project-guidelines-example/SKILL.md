@@ -1,19 +1,19 @@
 # Project Guidelines Skill (Example)
 
-This is an example of a project-specific skill. Use this as a template for your own projects.
+这是一个项目特定 skill 的示例。用作你自己项目的模板。
 
-Based on a real production application: [Zenith](https://zenith.chat) - AI-powered customer discovery platform.
+基于真实生产应用：[Zenith](https://zenith.chat) - AI 驱动的客户发现平台。
 
 ---
 
 ## When to Use
 
-Reference this skill when working on the specific project it's designed for. Project skills contain:
-- Architecture overview
-- File structure
-- Code patterns
-- Testing requirements
-- Deployment workflow
+在为其设计的特定项目上工作时引用此 skill。Project skills 包含：
+- 架构概述
+- 文件结构
+- 代码模式
+- 测试要求
+- 部署工作流
 
 ---
 
@@ -60,29 +60,29 @@ project/
 │   └── src/
 │       ├── app/              # Next.js app router pages
 │       │   ├── api/          # API routes
-│       │   ├── (auth)/       # Auth-protected routes
-│       │   └── workspace/    # Main app workspace
+│       │   ├── (auth)/       # 认证保护的路由
+│       │   └── workspace/    # 主应用工作区
 │       ├── components/       # React components
-│       │   ├── ui/           # Base UI components
-│       │   ├── forms/        # Form components
-│       │   └── layouts/      # Layout components
+│       │   ├── ui/           # 基础 UI 组件
+│       │   ├── forms/        # 表单组件
+│       │   └── layouts/      # 布局组件
 │       ├── hooks/            # Custom React hooks
-│       ├── lib/              # Utilities
-│       ├── types/            # TypeScript definitions
-│       └── config/           # Configuration
+│       ├── lib/              # 工具
+│       ├── types/            # TypeScript 定义
+│       └── config/           # 配置
 │
 ├── backend/
 │   ├── routers/              # FastAPI route handlers
 │   ├── models.py             # Pydantic models
-│   ├── main.py               # FastAPI app entry
-│   ├── auth_system.py        # Authentication
-│   ├── database.py           # Database operations
-│   ├── services/             # Business logic
-│   └── tests/                # pytest tests
+│   ├── main.py               # FastAPI app 入口
+│   ├── auth_system.py        # 认证
+│   ├── database.py           # 数据库操作
+│   ├── services/             # 业务逻辑
+│   └── tests/                # pytest 测试
 │
-├── deploy/                   # Deployment configs
-├── docs/                     # Documentation
-└── scripts/                  # Utility scripts
+├── deploy/                   # 部署配置
+├── docs/                     # 文档
+└── scripts/                  # 工具脚本
 ```
 
 ---
@@ -170,7 +170,7 @@ async def analyze_with_claude(content: str) -> AnalysisResult:
         tool_choice={"type": "tool", "name": "provide_analysis"}
     )
 
-    # Extract tool use result
+    # 提取 tool use 结果
     tool_use = next(
         block for block in response.content
         if block.type == "tool_use"
@@ -222,13 +222,13 @@ export function useApi<T>(
 ### Backend (pytest)
 
 ```bash
-# Run all tests
+# 运行所有测试
 poetry run pytest tests/
 
-# Run with coverage
+# 运行带覆盖率
 poetry run pytest tests/ --cov=. --cov-report=html
 
-# Run specific test file
+# 运行特定测试文件
 poetry run pytest tests/test_auth.py -v
 ```
 
@@ -253,13 +253,13 @@ async def test_health_check(client: AsyncClient):
 ### Frontend (React Testing Library)
 
 ```bash
-# Run tests
+# 运行测试
 npm run test
 
-# Run with coverage
+# 运行带覆盖率
 npm run test -- --coverage
 
-# Run E2E tests
+# 运行 E2E 测试
 npm run test:e2e
 ```
 
@@ -298,11 +298,11 @@ describe('WorkspacePanel', () => {
 ### Deployment Commands
 
 ```bash
-# Build and deploy frontend
+# 构建和部署前端
 cd frontend && npm run build
 gcloud run deploy frontend --source .
 
-# Build and deploy backend
+# 构建和部署后端
 cd backend
 gcloud run deploy backend --source .
 ```
@@ -326,20 +326,20 @@ SUPABASE_KEY=eyJ...
 
 ## Critical Rules
 
-1. **No emojis** in code, comments, or documentation
-2. **Immutability** - never mutate objects or arrays
-3. **TDD** - write tests before implementation
+1. **No emojis** 在代码、注释或文档中
+2. **Immutability** - 永不修改对象或数组
+3. **TDD** - 在实现之前写测试
 4. **80% coverage** minimum
-5. **Many small files** - 200-400 lines typical, 800 max
-6. **No console.log** in production code
-7. **Proper error handling** with try/catch
-8. **Input validation** with Pydantic/Zod
+5. **Many small files** - 200-400 行典型，最多 800 行
+6. **No console.log** 在生产代码中
+7. **Proper error handling** 使用 try/catch
+8. **Input validation** 使用 Pydantic/Zod
 
 ---
 
 ## Related Skills
 
-- `coding-standards.md` - General coding best practices
-- `backend-patterns.md` - API and database patterns
-- `frontend-patterns.md` - React and Next.js patterns
-- `tdd-workflow/` - Test-driven development methodology
+- `coding-standards.md` - 通用编码最佳实践
+- `backend-patterns.md` - API 和数据库模式
+- `frontend-patterns.md` - React 和 Next.js 模式
+- `tdd-workflow/` - 测试驱动开发方法论

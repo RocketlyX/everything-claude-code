@@ -2,13 +2,13 @@
 /**
  * Continuous Learning - Session Evaluator
  *
- * Cross-platform (Windows, macOS, Linux)
+ * 跨平台 (Windows, macOS, Linux)
  *
- * Runs on Stop hook to extract reusable patterns from Claude Code sessions
+ * 在 Stop hook 运行以从 Claude Code 会话中提取可复用的模式
  *
- * Why Stop hook instead of UserPromptSubmit:
- * - Stop runs once at session end (lightweight)
- * - UserPromptSubmit runs every message (heavy, adds latency)
+ * 为什么使用 Stop hook 而不是 UserPromptSubmit:
+ * - Stop 在会话结束时运行一次（轻量级）
+ * - UserPromptSubmit 每条消息都运行（重，增加延迟）
  */
 
 const path = require('path');
@@ -22,15 +22,15 @@ const {
 } = require('../lib/utils');
 
 async function main() {
-  // Get script directory to find config
+  // 获取脚本目录以找到配置
   const scriptDir = __dirname;
   const configFile = path.join(scriptDir, '..', '..', 'skills', 'continuous-learning', 'config.json');
 
-  // Default configuration
+  // 默认配置
   let minSessionLength = 10;
   let learnedSkillsPath = getLearnedSkillsDir();
 
-  // Load config if exists
+  // 如果存在则加载配置
   const configContent = readFile(configFile);
   if (configContent) {
     try {
@@ -38,34 +38,34 @@ async function main() {
       minSessionLength = config.min_session_length || 10;
 
       if (config.learned_skills_path) {
-        // Handle ~ in path
+        // 处理路径中的 ~
         learnedSkillsPath = config.learned_skills_path.replace(/^~/, require('os').homedir());
       }
     } catch {
-      // Invalid config, use defaults
+      // 无效配置，使用默认值
     }
   }
 
-  // Ensure learned skills directory exists
+  // 确保 learned skills 目录存在
   ensureDir(learnedSkillsPath);
 
-  // Get transcript path from environment (set by Claude Code)
+  // 从环境变量获取 transcript 路径（由 Claude Code 设置）
   const transcriptPath = process.env.CLAUDE_TRANSCRIPT_PATH;
 
   if (!transcriptPath || !fs.existsSync(transcriptPath)) {
     process.exit(0);
   }
 
-  // Count user messages in session
+  // 统计会话中的用户消息数
   const messageCount = countInFile(transcriptPath, /"type":"user"/g);
 
-  // Skip short sessions
+  // 跳过短会话
   if (messageCount < minSessionLength) {
     log(`[ContinuousLearning] Session too short (${messageCount} messages), skipping`);
     process.exit(0);
   }
 
-  // Signal to Claude that session should be evaluated for extractable patterns
+  // 向 Claude 发出信号，表示应评估会话以提取可复用模式
   log(`[ContinuousLearning] Session has ${messageCount} messages - evaluate for extractable patterns`);
   log(`[ContinuousLearning] Save learned skills to: ${learnedSkillsPath}`);
 
