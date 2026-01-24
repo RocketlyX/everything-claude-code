@@ -1,6 +1,6 @@
 {
   "name": "everything-claude-code",
-  "description": "Complete collection of battle-tested Claude Code configs from an Anthropic hackathon winner - agents, skills, hooks, commands, and rules evolved over 10+ months of intensive daily use",
+  "description": "来自 Anthropic 黑客马拉松获奖者的完整实战检验 Claude Code 配置集合 - 包含 agents、skills、hooks、commands 和 rules，经过 10+ 个月密集日常使用演进而来",
   "author": {
     "name": "Affaan Mustafa",
     "url": "https://x.com/affaanmustafa"

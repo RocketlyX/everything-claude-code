@@ -320,6 +320,7 @@ node tests/hooks/hooks.test.js
 **欢迎并鼓励贡献。**
 
 本仓库旨在成为社区资源。如果你有：
+
 - 有用的 agents 或 skills
 - 巧妙的 hooks
 - 更好的 MCP 配置
@@ -352,6 +353,7 @@ node tests/hooks/hooks.test.js
 **关键：** 不要同时启用所有 MCPs。启用太多工具时，你的 200k 上下文窗口可能缩减到 70k。
 
 经验法则：
+
 - 配置 20-30 个 MCPs
 - 每个项目保持启用少于 10 个
 - 活跃工具少于 80 个
@@ -361,6 +363,7 @@ node tests/hooks/hooks.test.js
 ### 自定义
 
 这些配置适用于我的工作流。你应该：
+
 1. 从与你产生共鸣的部分开始
 2. 根据你的技术栈修改
 3. 移除你不用的
