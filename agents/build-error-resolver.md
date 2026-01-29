@@ -530,3 +530,13 @@ After build error resolution:
 ---
 
 **Remember**: The goal is to fix errors quickly with minimal changes. Don't refactor, don't optimize, don't redesign. Fix the error, verify the build passes, move on. Speed and precision over perfection.
+
+## Codex Skill Triggers
+
+Use these Codex skills when applicable:
+- `plan`: start complex work or refactors; plan before coding.
+- `tdd`: add features or fix bugs with red → green → refactor.
+- `code-review`: review after code changes or before PRs.
+- `verify`: run verification after completing a change set.
+- `build-fix`: triage and fix build/test failures.
+- `commands-catalog`: any other /command not covered above.

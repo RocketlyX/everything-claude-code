@@ -102,3 +102,13 @@ Add your project-specific checks here. Examples:
 - Validate cache fallback behavior
 
 Customize based on your project's `CLAUDE.md` or skill files.
+
+## Codex Skill Triggers
+
+Use these Codex skills when applicable:
+- `plan`: start complex work or refactors; plan before coding.
+- `tdd`: add features or fix bugs with red → green → refactor.
+- `code-review`: review after code changes or before PRs.
+- `verify`: run verification after completing a change set.
+- `build-fix`: triage and fix build/test failures.
+- `commands-catalog`: any other /command not covered above.

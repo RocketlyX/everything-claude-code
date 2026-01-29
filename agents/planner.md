@@ -117,3 +117,13 @@ Create detailed steps with:
 - Performance bottlenecks
 
 **Remember**: A great plan is specific, actionable, and considers both the happy path and edge cases. The best plans enable confident, incremental implementation.
+
+## Codex Skill Triggers
+
+Use these Codex skills when applicable:
+- `plan`: start complex work or refactors; plan before coding.
+- `tdd`: add features or fix bugs with red → green → refactor.
+- `code-review`: review after code changes or before PRs.
+- `verify`: run verification after completing a change set.
+- `build-fix`: triage and fix build/test failures.
+- `commands-catalog`: any other /command not covered above.

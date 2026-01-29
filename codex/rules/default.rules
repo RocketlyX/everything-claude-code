@@ -1,0 +1,51 @@
+# Exec policy rules for Codex.
+# These rules control commands run outside the sandbox.
+# Allow most developer commands; prompt only for destructive actions.
+
+prefix_rule(
+    pattern = [["rm", "rmdir", "unlink", "shred", "dd", "truncate", "mkfs", "mkfs.ext4", "mkfs.xfs", "diskutil", "fdisk", "sfdisk", "parted", "wipefs"]],
+    decision = "prompt",
+    justification = "Destructive filesystem or disk operations",
+    match = ["rm -rf build", "dd if=/dev/zero of=/dev/diskX", "diskutil eraseDisk ..."],
+)
+
+prefix_rule(
+    pattern = ["git", ["reset", "clean"]],
+    decision = "prompt",
+    justification = "Potentially destructive git cleanup/reset",
+    match = ["git reset --hard HEAD~1", "git clean -fd"],
+)
+
+prefix_rule(
+    pattern = [["sudo", "doas"]],
+    decision = "forbidden",
+    justification = "Do not run privileged commands via Codex",
+)
+
+prefix_rule(
+    pattern = [["ls", "pwd", "whoami", "date", "cat", "head", "tail", "sed", "rg", "find", "tree", "stat", "file", "du", "df", "ps", "top", "htop", "env", "printenv", "which", "whereis", "uname", "id", "groups", "uptime", "history", "tput", "less", "more"]],
+    decision = "allow",
+    justification = "Read-only/system inspection",
+    match = ["rg \"TODO\" .", "sed -n '1,20p' README.md"],
+)
+
+prefix_rule(
+    pattern = [["git", "node", "python", "python3", "bash", "sh", "zsh", "fish", "make", "go", "cargo", "npm", "pnpm", "yarn", "bun", "pip", "pip3", "ruby", "java", "javac", "mvn", "gradle", "dotnet"]],
+    decision = "allow",
+    justification = "Common development tooling",
+    match = ["git status", "npm test", "node scripts/setup-package-manager.js --detect"],
+)
+
+prefix_rule(
+    pattern = [["curl", "wget", "ssh", "scp", "rsync", "ping", "traceroute", "dig", "nslookup", "nc", "telnet"]],
+    decision = "allow",
+    justification = "Network access allowed per project policy",
+    match = ["curl https://example.com", "git fetch origin"],
+)
+
+prefix_rule(
+    pattern = [["mkdir", "touch", "cp", "mv", "ln", "tar", "zip", "unzip", "gzip", "gunzip", "xz", "chmod", "chown"]],
+    decision = "allow",
+    justification = "Common filesystem operations",
+    match = ["mkdir -p .codex/skills", "cp -R skills/* .codex/skills/"],
+)

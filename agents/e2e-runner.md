@@ -795,3 +795,13 @@ After E2E test run:
 ---
 
 **Remember**: E2E tests are your last line of defense before production. They catch integration issues that unit tests miss. Invest time in making them stable, fast, and comprehensive. For Example Project, focus especially on financial flows - one bug could cost users real money.
+
+## Codex Skill Triggers
+
+Use these Codex skills when applicable:
+- `plan`: start complex work or refactors; plan before coding.
+- `tdd`: add features or fix bugs with red → green → refactor.
+- `code-review`: review after code changes or before PRs.
+- `verify`: run verification after completing a change set.
+- `build-fix`: triage and fix build/test failures.
+- `commands-catalog`: any other /command not covered above.

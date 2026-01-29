@@ -1,0 +1,23 @@
+[approvals]
+allowed_approval_policies = ["on-request"]
+
+[sandbox]
+allowed_sandbox_modes = ["workspace-write"]
+
+[mcp_servers.memory.identity]
+command = "npx"
+
+[mcp_servers.sequential-thinking.identity]
+command = "npx"
+
+[mcp_servers.context7.identity]
+command = "npx"
+
+[mcp_servers.github.identity]
+command = "npx"
+
+[mcp_servers.playwright.identity]
+command = "npx"
+
+[mcp_servers.mixedbread.identity]
+command = "npx"

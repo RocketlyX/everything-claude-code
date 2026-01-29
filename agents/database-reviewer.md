@@ -652,3 +652,13 @@ ORDER BY rank DESC;
 **Remember**: Database issues are often the root cause of application performance problems. Optimize queries and schema design early. Use EXPLAIN ANALYZE to verify assumptions. Always index foreign keys and RLS policy columns.
 
 *Patterns adapted from [Supabase Agent Skills](https://github.com/supabase/agent-skills) under MIT license.*
+
+## Codex Skill Triggers
+
+Use these Codex skills when applicable:
+- `plan`: start complex work or refactors; plan before coding.
+- `tdd`: add features or fix bugs with red → green → refactor.
+- `code-review`: review after code changes or before PRs.
+- `verify`: run verification after completing a change set.
+- `build-fix`: triage and fix build/test failures.
+- `commands-catalog`: any other /command not covered above.
